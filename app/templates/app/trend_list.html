@@ -1,0 +1,88 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'app/css/app.css' %}">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+{{ form.media }}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/css/theme.default.min.css">
+
+
+<script>
+$(document).ready(function()
+    {
+        $("#table_trendlist").tablesorter();
+    }
+);
+</script>
+
+
+{% block body %}
+  {{ message }}
+
+  <p>●検索条件</p>
+
+  <form method="post" action="">
+  {% csrf_token %}
+	<table>
+	  <tr>
+	    <td>{{ form.syutokuymd.label }}</td>
+	    <td>{{ form.syutokuymd }}</td>
+	  </tr>
+	  <tr>
+	    <td>{{ form.syutokutime_from.label }}</td>
+	    <td>{{ form.syutokutime_from }}</td>
+		<td> ～	</td>
+	    <td>{{ form.syutokutime_to }}</td>
+	  </tr>
+	  <tr>
+	    <td>{{ form.trendword.label }}</td>
+	    <td>{{ form.trendword }}</td>
+	  </tr>
+	</table>
+
+    <input type="submit" value="検索">
+  </form>
+  <hr>
+  <br>
+	<p>●検索結果</p>
+	<div class="row">
+		<div class="col-12">
+			<ul class="list-group">
+				<table id="table_trendlist" class="tablesorter">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>トレンドワード</th>
+						<th>取得日</th>
+						<th>取得時間</th>
+						<th>ツイート数</th>
+						<th>平均感情スコア</th>
+					</tr>
+					</thead>
+					{% for trend in trend_list %}
+						<tr>
+							<td><p>{{ trend.pk }}</p></td>
+							<td><a href="{% url 'tweet' trend.pk %}">{{ trend.trendword }}</a></td>
+							<td><p>{{ trend.syutokuymd|date:"Y/m/d"}}</p></td>
+							<td><p>{{ trend.syutokutime|date:"G:i:s" }}</p></td>
+							<td><p>{{ trend.tweetvolume }}</p></td>
+							<td><p>{{ trend.avetweetsentimentscore }}</p></td>
+						</tr>
+
+				{% empty %}
+				<li class="list-group-item">
+					対象のデータがありません
+				</li>
+				{% endfor %}
+				</table>
+			</ul>
+		</div>
+	</div>
+
+
+{% endblock %}

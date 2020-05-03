@@ -1,0 +1,71 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'app/css/app.css' %}">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>トレンド</title>
+</head>
+
+<body>
+	<form action="" methd="get">
+		<p>●検索条件</p>
+		<table>
+		<tr>
+			<td>取得日</td>
+			<td><input name="s_syutokuymd" value="{{ request.GET.s_syutokuymd}}" type="text"></td>
+		</tr>
+		<tr>
+			<td>トレンドワード</td>
+			<td><input name="s_trendword" value="{{ request.GET.s_trendword }}" type="text"></td>
+		</tr>
+		</table>
+
+		<button type="submit">検索</button>
+	</form>
+
+	<br>
+	<hr>
+	<p>●検索結果</p>
+
+	<div class="row">
+		<div class="col-12">
+			<ul class="list-group">
+				<table border="1">
+					<tr>
+						<th>ID</th>
+						<th>トレンドワード</th>
+						<th>取得日</th>
+						<th>取得時間</th>
+						<th>ツイート数</th>
+						<th>平均感情スコア</th>
+					</tr>
+
+					{% for trend in trend_list %}
+						<tr>
+							<td><p>{{ trend.pk }}</p></td>
+							<td><a href="{% url 'tweet' trend.pk %}">{{ trend.trendword }}</a></td>
+							<td><p>{{ trend.syutokuymd|date:"Y/m/d"}}</p></td>
+							<td><p>{{ trend.syutokutime|date:"G:i:s" }}</p></td>
+							<td><p>{{ trend.tweetvolume }}</p></td>
+							<td><p>{{ trend.avetweetsentimentscore }}</p></td>
+						</tr>
+
+				{% empty %}
+				<li class="list-group-item">
+					対象のデータがありません
+				</li>
+				{% endfor %}
+				</table>
+			</ul>
+		</div>
+	</div>
+
+</body>
+</html>
