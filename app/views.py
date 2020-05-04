@@ -43,10 +43,14 @@ def trend_forms(request):
     return render(request, 'app/trend_list.html', d)
 
 
-def tweet_forms(request):
+def tweet_forms(request, trendid):
     message = ''
     tweet_list = Tweet.objects.all()
-    form = forms.TweetForm(request.POST or None)
+    form = forms.TweetForm(request.GET or request.POST or None)
+
+    if request.method == 'GET':
+        if trendid:
+            tweet_list = tweet_list.filter(trend__pk=trendid)
 
     if request.method == 'POST':
         if form.is_valid():
