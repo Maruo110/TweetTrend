@@ -10,22 +10,6 @@ from django.forms.forms import Form
 def menu(request):
     return render(request, 'app/menu.html')
 
-"""
-class trend(ListView):
-
-    #model = Trend
-    #queryset = model.objects.all().order_by('pk')
-
-    def get_queryset(self):
-        q_trendword = self.request.GET.get('s_trendword')
-
-        if q_trendword:
-            queryset = Trend.objects.filter(trendword__contains=q_trendword).order_by('pk')
-        else:
-            queryset = Trend.objects.all().order_by('pk')
-        return queryset
-"""
-
 def trend_forms(request):
     message = ''
     trend_list = Trend.objects.all()
@@ -42,7 +26,7 @@ def trend_forms(request):
             if q_syutokuymd:
                 trend_list = trend_list.filter(syutokuymd=q_syutokuymd)
 
-            if q_syutokutime_from:
+            if (q_syutokutime_from and q_syutokutime_to):
                 trend_list = trend_list.filter(syutokutime__range=(q_syutokutime_from, q_syutokutime_to))
 
             if q_trendword:
