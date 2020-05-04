@@ -89,6 +89,8 @@ class Tweet(models.Model):
     tweettext = models.CharField(
         verbose_name = 'ツイートテキスト',
         max_length = 500,
+        blank=True,
+        null=True,
     )
 
     retweetvolume = models.IntegerField(

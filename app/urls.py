@@ -23,6 +23,6 @@ urlpatterns = [
     #path('trend/forms/', views.trend_forms, name='trend_forms'),
     path('trend/', views.trend_forms,  name='trend'),
     #path('tweet/', views.tweet_forms,  name='tweet'),
-    path('trend/<int:trendid>/tweet/', views.tweet_forms, name='tweet'),
+    path('trend/<int:trendid>/<str:trendword>/tweet/', views.tweet_forms, name='tweet'),
     path('<int:trend_id>/trendurl/', views.trendurl, name='trendurl'),
 ]

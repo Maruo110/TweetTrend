@@ -43,7 +43,7 @@ def trend_forms(request):
     return render(request, 'app/trend_list.html', d)
 
 
-def tweet_forms(request, trendid):
+def tweet_forms(request, trendid, trendword):
     message = ''
     tweet_list = Tweet.objects.all()
     form = forms.TweetForm(request.GET or request.POST or None)
@@ -51,15 +51,20 @@ def tweet_forms(request, trendid):
     if request.method == 'GET':
         if trendid:
             tweet_list = tweet_list.filter(trend__pk=trendid)
+            form = forms.TweetForm(initial = {'trendword' : trendword})
 
     if request.method == 'POST':
         if form.is_valid():
 
-            #q_trendword = request.POST.get('trendword')
+            q_trendword = request.POST.get('trendword')
+
+
             q_tweettext = request.POST.get('tweettext')
 
             if q_tweettext:
                 tweet_list = tweet_list.filter(tweettext__icontains=q_tweettext)
+
+
         else:
             message = 'データ検証に失敗しました。'
 
