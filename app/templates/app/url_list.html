@@ -1,0 +1,62 @@
+{% extends "app/_base.html" %}
+{% block content %}
+
+ <div class="message">
+ {{ message }}
+ </div>
+<br>
+
+  <h3 class="sub_title">●検索条件</h3>
+
+  <form method="post" action="">
+  {% csrf_token %}
+	<table>
+	  <tr>
+	    <td>{{ form.title.label }}</td>
+	    <td>{{ form.title }}</td>
+	  </tr>
+	  <tr>
+	    <td>{{ form.contents.label }}</td>
+	    <td>{{ form.contents }}</td>
+	  </tr>
+
+	</table>
+
+    <input type="submit" value="検索">
+  </form>
+  <hr>
+  <br>
+    <h3 class="sub_title">●検索結果</h3>
+
+
+	<div class="row">
+		<div class="col-12">
+			<ul class="list-group">
+				<table id="tablelist" class="tablesorter">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>タイトル</th>
+						<th>感情指数</th>
+						<th>感情強度指数</th>
+					</tr>
+					</thead>
+					{% for url in url_list %}
+						<tr>
+							<td><p>{{ url.pk }}</p></td>
+							<td><a href={{ url.linkedurl }} target="_blank" rel="noopener noreferrer">{{ url.title }}</a></td>
+							<td><p>{{ url.sentimentscore }}</p></td>
+							<td><p>{{ url.sentimentsmagnitude }}</p></td>
+						</tr>
+
+				{% empty %}
+				<li class="list-group-item">
+					対象のデータがありません
+				</li>
+				{% endfor %}
+				</table>
+			</ul>
+		</div>
+	</div>
+
+{% endblock %}

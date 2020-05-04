@@ -24,5 +24,6 @@ urlpatterns = [
     path('trend/', views.trend_forms,  name='trend'),
     path('tweet/', views.tweet_forms2,  name='tweet'),
     path('trend/<int:trendid>/tweet/', views.tweet_forms, name='tweet'),
-    path('<int:trend_id>/trendurl/', views.trendurl, name='trendurl'),
+    path('linkedurl/', views.url_forms,  name='url'),
+    #path('<int:trend_id>/trendurl/', views.trendurl, name='trendurl'),
 ]

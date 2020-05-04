@@ -141,6 +141,30 @@ def tweet_forms(request, trendid):
     return render(request, 'app/tweet_list.html', d)
 
 
-def trendurl(request, trend_id):
-    return HttpResponse("TrendUrl-Page trend_id= %s" % trend_id)
+def url_forms(request):
+    message = ''
+    url_list = Url.objects.all().order_by('-pk')
+    form = forms.UrlForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            q_title = request.POST.get('title')
+            q_contents = request.POST.get('contents')
+
+            if q_title:
+                url_list = url_list.filter(title__icontains=q_title)
+
+            if q_contents:
+                url_list = url_list.filter(contents__icontains=q_contents)
+
+        else:
+            message = 'データ検証に失敗しました。'
+
+    d = {
+        'form': form,
+        'message': message,
+        'url_list' : url_list,
+        }
+    return render(request, 'app/url_list.html', d)
+
 

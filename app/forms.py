@@ -1,6 +1,6 @@
 import bootstrap_datepicker_plus as datetimepicker
 from django import forms
-from .models import Trend, Tweet
+from .models import Trend, Tweet, Url
 from cgi import maxlen
 
 
@@ -60,3 +60,9 @@ class TweetForm(forms.ModelForm):
     class Meta:
         model = Tweet
         fields = ('tweettext',)
+
+
+class UrlForm(forms.ModelForm):
+    class Meta:
+        model = Url
+        fields = ('title', 'contents')

@@ -42,7 +42,7 @@ class Trend(models.Model):
 
 class Url(models.Model):
 
-    urlid = models.CharField(
+    linkedurl = models.CharField(
         verbose_name = '関連リンクURL',
         max_length = 500,
     )
@@ -67,11 +67,17 @@ class Url(models.Model):
     title = models.CharField(
         verbose_name = 'タイトル',
         max_length = 200,
+        blank=True,
+        null=True,
+
     )
 
     contents = models.CharField(
         verbose_name = '本文',
         max_length = 10000,
+        blank=True,
+        null=True,
+
     )
 
     # 管理サイト上の表示設定
