@@ -57,10 +57,28 @@ def tweet_forms(request, trendid, trendword):
         if form.is_valid():
 
             q_tweettext = request.POST.get('tweettext')
+            q_create_at_date = request.POST.get('create_at_date')
+            q_create_at_from = request.POST.get('create_at_from')
+            q_create_at_to = request.POST.get('create_at_to')
+
+            if (q_create_at_from and q_create_at_to):
+                pass
+            else:
+                if q_create_at_from:
+                    pass
+                else:
+                    q_create_at_from = '00:00:00'
+
+                if q_create_at_to:
+                    pass
+                else:
+                    q_create_at_to = '23:59:59'
+
+            if q_create_at_date:
+                tweet_list = tweet_list.filter(tweettime__range=(q_create_at_date + ' ' + q_create_at_from, q_create_at_date + ' ' + q_create_at_to))
 
             if q_tweettext:
                 tweet_list = tweet_list.filter(tweettext__icontains=q_tweettext)
-
 
         else:
             message = 'データ検証に失敗しました。'

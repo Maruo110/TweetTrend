@@ -8,8 +8,16 @@
   <form method="post" action="">
   {% csrf_token %}
 	<table>
-
-
+	  <tr>
+	    <td>{{ form.create_at_date.label }}</td>
+	    <td>{{ form.create_at_date }}</td>
+	  </tr>
+	  <tr>
+	    <td>{{ form.create_at_from.label }}</td>
+	    <td>{{ form.create_at_from }}</td>
+		<td> ～	</td>
+	    <td>{{ form.create_at_to }}</td>
+	  </tr>
 	  <tr>
 	    <td>{{ form.tweettext.label }}</td>
 	    <td>{{ form.tweettext }}</td>

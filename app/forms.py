@@ -36,6 +36,27 @@ class TrendForm(forms.ModelForm):
 
 class TweetForm(forms.ModelForm):
 
+    create_at_date = forms.DateField(label='ツイート日付', required=False, widget=datetimepicker.TimePickerInput(
+                    format='%Y-%m-%d',
+                    options={
+                        'locale': 'ja',
+                    }
+                ))
+
+    create_at_from  = forms.TimeField(label='ツイート時刻', required=False, widget=datetimepicker.TimePickerInput(
+                    format='%H:%M:%S',
+                    options={
+                        'locale': 'ja',
+                    }
+                ))
+
+    create_at_to  = forms.TimeField(required=False, widget=datetimepicker.TimePickerInput(
+                    format='%H:%M:%S',
+                    options={
+                        'locale': 'ja',
+                    }
+                ))
+
     class Meta:
         model = Tweet
         fields = ('tweettext',)
