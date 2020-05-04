@@ -36,8 +36,6 @@ class TrendForm(forms.ModelForm):
 
 class TweetForm(forms.ModelForm):
 
-    trendword = forms.CharField(label='トレンドワード', required=False)
-
     class Meta:
         model = Tweet
         fields = ('tweettext',)

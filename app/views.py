@@ -51,13 +51,10 @@ def tweet_forms(request, trendid, trendword):
     if request.method == 'GET':
         if trendid:
             tweet_list = tweet_list.filter(trend__pk=trendid)
-            form = forms.TweetForm(initial = {'trendword' : trendword})
+            #form = forms.TweetForm(initial = {'trendword' : trendword})
 
     if request.method == 'POST':
         if form.is_valid():
-
-            q_trendword = request.POST.get('trendword')
-
 
             q_tweettext = request.POST.get('tweettext')
 
