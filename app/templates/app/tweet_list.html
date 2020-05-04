@@ -1,0 +1,66 @@
+{% extends "app/_base.html" %}
+{% block content %}
+
+  {{ message }}
+
+  <h3 class="sub_title">●検索条件</h3>
+
+  <form method="post" action="">
+  {% csrf_token %}
+	<table>
+	  <tr>
+	    <td>{{ form.trendword.label }}</td>
+	    <td>{{ form.trendword }}</td>
+	  </tr>
+	  <tr>
+	    <td>{{ form.tweettext.label }}</td>
+	    <td>{{ form.tweettext }}</td>
+	  </tr>
+
+	</table>
+
+    <input type="submit" value="検索">
+  </form>
+  <hr>
+  <br>
+    <h3 class="sub_title">●検索結果</h3>
+
+	<div class="row">
+		<div class="col-12">
+			<ul class="list-group">
+				<table id="tablelist" class="tablesorter">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>ユーザーID</th>
+						<th>ツイートテキスト</th>
+						<th>RT数</th>
+						<th>FV数</th>
+						<th>感情スコア</th>
+						<th>ツイート日時</th>
+						<th>リンク</th>
+					</tr>
+					</thead>
+					{% for tweet in tweet_list %}
+						<tr>
+							<td><p>{{ tweet.pk }}</p></td>
+							<td><p>{{ tweet.userid }}</p></td>
+							<td><p>{{ tweet.tweettext }}</p></td>
+							<td><p>{{ tweet.retweetvolume }}</p></td>
+							<td><p>{{ tweet.favoritevolume }}</p></td>
+							<td><p>{{ tweet.tweetsentimentscore }}</p></td>
+							<td><p>{{ tweet.tweettime|date:"Y/m/d G:i:s"}}</p></td>
+							<td><a href={{ tweet.tweeturl }}>Link</a></td>
+						</tr>
+
+				{% empty %}
+				<li class="list-group-item">
+					対象のデータがありません
+				</li>
+				{% endfor %}
+				</table>
+			</ul>
+		</div>
+	</div>
+
+{% endblock %}

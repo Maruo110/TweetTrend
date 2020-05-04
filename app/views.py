@@ -43,8 +43,28 @@ def trend_forms(request):
     return render(request, 'app/trend_list.html', d)
 
 
-def tweet(request, trend_id):
-    return HttpResponse("Tweet-Page trend_id= %s" % trend_id)
+def tweet_forms(request):
+    message = ''
+    tweet_list = Tweet.objects.all()
+    form = forms.TweetForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+
+            #q_trendword = request.POST.get('trendword')
+            q_tweettext = request.POST.get('tweettext')
+
+            if q_tweettext:
+                tweet_list = tweet_list.filter(tweettext__icontains=q_tweettext)
+        else:
+            message = 'データ検証に失敗しました。'
+
+    d = {
+        'form': form,
+        'message': message,
+        'tweet_list' : tweet_list,
+        }
+    return render(request, 'app/tweet_list.html', d)
 
 
 def trendurl(request, trend_id):

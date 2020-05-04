@@ -1,6 +1,7 @@
 import bootstrap_datepicker_plus as datetimepicker
 from django import forms
-from .models import Trend
+from .models import Trend, Tweet
+from cgi import maxlen
 
 
 class TrendForm(forms.ModelForm):
@@ -32,3 +33,11 @@ class TrendForm(forms.ModelForm):
                 ),
                 'trendword': forms.TextInput(),
                   }
+
+class TweetForm(forms.ModelForm):
+
+    trendword = forms.CharField(label='トレンドワード', required=False)
+
+    class Meta:
+        model = Tweet
+        fields = ('tweettext',)
