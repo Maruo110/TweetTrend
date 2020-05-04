@@ -12,7 +12,7 @@ def menu(request):
 
 def trend_forms(request):
     message = ''
-    trend_list = Trend.objects.all()
+    trend_list = Trend.objects.all().order_by('-pk')
     form = forms.TrendForm(request.POST or None)
 
     if request.method == 'POST':
@@ -42,10 +42,60 @@ def trend_forms(request):
         }
     return render(request, 'app/trend_list.html', d)
 
-
-def tweet_forms(request, trendid, trendword):
+def tweet_forms2(request):
     message = ''
-    tweet_list = Tweet.objects.all()
+    tweet_list = Tweet.objects.all().order_by('-pk')
+    form = forms.TweetForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+
+            q_tweettext = request.POST.get('tweettext')
+            q_create_at_date = request.POST.get('create_at_date')
+            q_create_at_from = request.POST.get('create_at_from')
+            q_create_at_to = request.POST.get('create_at_to')
+
+            if q_create_at_date:
+                pass
+            else:
+                if (q_create_at_from or q_create_at_to):
+                    message = 'エラー：ツイート日付を入力してください。'
+                else:
+                    pass
+
+            if (q_create_at_from and q_create_at_to):
+                pass
+            else:
+                if q_create_at_from:
+                    pass
+                else:
+                    q_create_at_from = '00:00:00'
+
+                if q_create_at_to:
+                    pass
+                else:
+                    q_create_at_to = '23:59:59'
+
+            if q_create_at_date:
+                tweet_list = tweet_list.filter(tweettime__range=(q_create_at_date + ' ' + q_create_at_from, q_create_at_date + ' ' + q_create_at_to))
+
+            if q_tweettext:
+                tweet_list = tweet_list.filter(tweettext__icontains=q_tweettext)
+
+        else:
+            message = 'データ検証に失敗しました。'
+
+    d = {
+        'form': form,
+        'message': message,
+        'tweet_list' : tweet_list,
+        }
+    return render(request, 'app/tweet_list.html', d)
+
+
+def tweet_forms(request, trendid):
+    message = ''
+    tweet_list = Tweet.objects.all().order_by('-pk')
     form = forms.TweetForm(request.GET or request.POST or None)
 
     if request.method == 'GET':
